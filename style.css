@@ -1,0 +1,28 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+}
+
+/*Button {
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+
+  padding-top: 16px;
+  padding-bottom: 16px;
+
+  padding-left: 24px;
+  padding-right: 24px;
+
+  color: #000000;
+  background: #cccccc;
+}
+
+button:hover {
+  background: #c3c3c3;
+  cursor: pointer;
+}*/
