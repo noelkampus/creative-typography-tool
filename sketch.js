@@ -243,8 +243,10 @@ function mousePressed() {
   let d = dist(mouseX, mouseY, shapeX, shapeY);
   if (d < box.w/2) {
     shapeMove = true;
+    cursor(MOVE);
   } else {
     shapeMove = false;
+    cursor(ARROW);
   }
 }
 
