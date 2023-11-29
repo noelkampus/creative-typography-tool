@@ -22,6 +22,9 @@ let textPattern = [];
 let lastColValue = 1;
 let lastRowValue = 0;
 
+let lastVerticalValue;
+let lastHorizontalValue;
+
 
 
 function preload() {
@@ -101,25 +104,26 @@ function setup() {
   sliderExtrude.style('120px');
 
   //slider spacing vertical
-  sliderSpacingVertical = createSlider(50, 800, 400);
+  sliderSpacingVertical = createSlider(50, 800, 400, 1);
   sliderSpacingVertical.position(250, height-50);
   sliderSpacingVertical.style('120px');
 
   //slider spacing horizontal
-  sliderSpacingHorizontal = createSlider(50, 1600, 800);
+  sliderSpacingHorizontal = createSlider(50, 1600, 800, 1);
   sliderSpacingHorizontal.position(400, height-50);
   sliderSpacingHorizontal.style('120px');
 
   lastColValue = sliderColumn.value();
-    lastRowValue = sliderRow.value();
-    textPattern = [];
+  lastRowValue = sliderRow.value();
+  textPattern = [];
 
   for (let x = 0; x < sliderColumn.value(); x++) {
     for (let y = 0; y < sliderRow.value(); y++) {
-      let aText = new animatedText(x, y);
+      let aText = new animatedText(x * sliderSpacingHorizontal.value(), y * sliderSpacingVertical.value());
       textPattern.push(aText);
     }
   }
+
 
   //console.log(this.points.length)
 }
@@ -129,10 +133,14 @@ function draw() {
 
   box = font.textBounds(textInput.value(), 0, 0, sliderTextSize.value());
 
-  if (sliderColumn.value() != lastColValue || sliderRow.value() != lastRowValue) {
+  if (sliderColumn.value() != lastColValue || sliderRow.value() != lastRowValue || sliderSpacingVertical.value() !== lastVerticalValue || sliderSpacingHorizontal.value() !== lastHorizontalValue) {
     console.log("change")
     lastColValue = sliderColumn.value();
     lastRowValue = sliderRow.value();
+
+    lastVerticalValue = sliderSpacingVertical.value();
+    lastHorizontalValue = sliderSpacingHorizontal.value();
+
     textPattern = [];
     for (let x = 0; x < sliderColumn.value(); x++) {
       for (let y = 0; y < sliderRow.value(); y++) {
