@@ -22,94 +22,6 @@ let lastRowValue = 0;
 
 
 
-class animatedText {
-
-  x = 0;
-  y = 0;
-
-  translatedX = 0;
-  translatedY = 0;
-
-  box = "";
-
-  points = "";
-
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-
-    this.box = font.textBounds(textInput.value(), 0, 0, sliderTextSize.value());
-    this.points = font.textToPoints(textInput.value(), 0, 0, sliderTextSize.value(), { sampleFactor: 0.1 });
-
-    this.translatePosition();
-  }
-
-  translatePosition() {
-    this.translatedX *= this.box.w;
-    this.translatedY *= this.box.h;
-  }
-  draw() {
-    //textPoints.text('IAD 23', 750, 500);
-    this.box = font.textBounds(textInput.value(), 0, 0, sliderTextSize.value());
-    this.points = font.textToPoints(textInput.value(), 0, 0, sliderTextSize.value(), { sampleFactor: 0.1 });
-    
-    this.translatePosition();
-
-    //rect(box.x,box.y,box.w,box.h);
-    translate(shapeX - this.box.w/2 ,shapeY + this.box.h/2)
-    scale(sliderScale.value());
-
-    for (let i = 0; i < this.points.length; i++) {
-
-      if (radio.value() === 'line') {
-
-        push();
-          translate(this.points[i].x, this.points[i].y);
-          rotate(frameCount * sliderRotation.value());
-          strokeWeight(sliderStroke.value());
-          stroke(colorPickerStrokes.color());
-          rect(10,10,sliderExtrude.value(),1);
-          //line(10, 10, -10, -10);
-        pop();
-
-      } else if (radio.value() === 'rectangle') {
-        
-        push();
-          translate(this.points[i].x, this.points[i].y);
-          rotate(frameCount * sliderRotation.value());
-          fill(colorPickerStrokes.color());
-          stroke(colorPickerStrokes.color());
-          strokeWeight(sliderStroke.value());
-          rect(10,10,sliderExtrude.value(),10);
-          //rect(10,10,random(30),random(30));
-        pop();
-
-      } else if (radio.value() === 'ellipse') {
-
-        push();
-          translate(this.points[i].x, this.points[i].y);
-          rotate(frameCount * sliderRotation.value());
-          fill(colorPickerStrokes.color());
-          stroke(colorPickerStrokes.color());
-          strokeWeight(sliderStroke.value());
-          ellipse(10,10,sliderExtrude.value(),10);
-        pop();
-
-      } else {
-
-        push();
-          translate(this.points[i].x, this.points[i].y);
-          rotate(frameCount * sliderRotation.value());
-          strokeWeight(sliderStroke.value());
-          stroke(colorPickerStrokes.color());
-          line(10, 10, -10, -10);
-        pop();
-
-      }
-    }
-  }
-}
-
 function preload() {
   font = loadFont('GeneralSans-Semibold.otf');
 }
@@ -182,7 +94,7 @@ function setup() {
   sliderScale.style('120px');
 
   //slider extrude
-  sliderExtrude = createSlider(1, 50, 30);
+  sliderExtrude = createSlider(1, 400, 30);
   sliderExtrude.position(20, 710);
   sliderExtrude.style('120px');
 
@@ -206,13 +118,13 @@ function draw() {
   box = font.textBounds(textInput.value(), 0, 0, sliderTextSize.value());
 
   if (sliderColumn.value() != lastColValue || sliderRow.value() != lastRowValue) {
+    console.log("change")
     lastColValue = sliderColumn.value();
     lastRowValue = sliderRow.value();
     textPattern = [];
-
     for (let x = 0; x < sliderColumn.value(); x++) {
       for (let y = 0; y < sliderRow.value(); y++) {
-        let aText = new animatedText(x, y);
+        let aText = new animatedText(x*100, y*100);
         textPattern.push(aText);
       }
     }
@@ -255,9 +167,9 @@ function draw() {
     pop();
   pop();*/
 
-  textPattern.forEach((e) => {e.draw()});
+  textPattern.forEach((e) => {e.display()});
 
-  console.log(textPattern);
+  //console.log(textPattern.length);
 }
 
 function myInputEvent() {
