@@ -58,6 +58,7 @@ class animatedText {
     //rect(box.x,box.y,box.w,box.h);
     translate(shapeX - this.box.w/2 ,shapeY + this.box.h/2)
     scale(sliderScale.value());
+
     for (let i = 0; i < this.points.length; i++) {
 
       if (radio.value() === 'line') {
@@ -109,7 +110,6 @@ class animatedText {
   }
 }
 
-
 function preload() {
   font = loadFont('GeneralSans-Semibold.otf');
 }
@@ -125,31 +125,31 @@ function setup() {
 
   //input
   textInput = createInput('IAD 23');
-  textInput.position(20, 50);
+  textInput.position(20, 70);
   textInput.size(120);
   textInput.input(myInputEvent);
 
   //color picker background
   colorPickerBG = createColorPicker('#FFFFFF');
-  colorPickerBG.position(20, 100);
+  colorPickerBG.position(20, 150);
 
   //color picker strokes
-  colorPickerStrokes = createColorPicker('#000000');
-  colorPickerStrokes.position(20, 150);
+  colorPickerStrokes = createColorPicker('#0008FF');
+  colorPickerStrokes.position(20, 220);
 
   //text size
-  sliderTextSize = createSlider(20, 1000, 200);
-  sliderTextSize.position(20, 200);
+  sliderTextSize = createSlider(20, 1000, 230);
+  sliderTextSize.position(20, 290);
   sliderTextSize.style('120px');
 
   //rotation
-  sliderRotation = createSlider(0.005, 20, 0.005);
-  sliderRotation.position(20, 250);
+  sliderRotation = createSlider(0.005, 2, 0.005, 0.001);
+  sliderRotation.position(20, 360);
   sliderRotation.style('120px');
 
   //strokeWeight
   sliderStroke = createSlider(1, 20, 1);
-  sliderStroke.position(20, 300);
+  sliderStroke.position(20, 430);
   sliderStroke.style('120px');
 
   //elements
@@ -158,32 +158,32 @@ function setup() {
   radio.option('rectangle', 'Rectangle');
   radio.option('ellipse', 'Ellipse');
   radio.style('120px');
-  radio.position(20, 350);
+  radio.position(20, 500);
   radio.selected('line');
 
   //save image
   saveButton = createButton('Save as Image');
-  saveButton.position(20, height-80);
+  saveButton.position(20, height-60);
   saveButton.mousePressed(saveImage);
 
   //slider row
   sliderRow = createSlider(1, 20, 1);
-  sliderRow.position(20, 400);
+  sliderRow.position(20, 570);
   sliderRow.style('120px');
 
   //slider column
   sliderColumn = createSlider(1, 20, 1);
-  sliderColumn.position(20, 420);
+  sliderColumn.position(20, 640);
   sliderColumn.style('120px');
 
   //slider scale
-  sliderScale = createSlider(0.5, 20, 1);
+  sliderScale = createSlider(0.5, 20, 1, 0.5);
   sliderScale.position(width-200, height-50);
   sliderScale.style('120px');
 
   //slider extrude
   sliderExtrude = createSlider(1, 50, 30);
-  sliderExtrude.position(20, 500);
+  sliderExtrude.position(20, 710);
   sliderExtrude.style('120px');
 
   lastColValue = sliderColumn.value();
@@ -196,7 +196,6 @@ function setup() {
       textPattern.push(aText);
     }
   }
-
 
   //console.log(this.points.length)
 }
@@ -219,16 +218,46 @@ function draw() {
     }
   }
 
-  //title
   push();
+    //title
+    push();
+      fill(colorPickerStrokes.color());
+      textSize(15);
+      text('Creative Typography', 20, 30);
+    pop();
+
     fill(colorPickerStrokes.color());
-    textSize(15);
-    text('Creative Typography', 20, 30);
-  pop();
+    text('Zoom' + '    ' + sliderScale.value() , width-200, height-60);
+    text('Background' + '    ' + colorPickerBG.value() , 20, 140);
+    text('Text' + '    ' + colorPickerStrokes.value() , 20, 210);
+    text('Font size' + '    ' + sliderTextSize.value() , 20, 280);
+    text('Rotation' + '    ' + sliderRotation.value() , 20, 350);
+    text('Stroke weight' + '    ' + sliderStroke.value() , 20, 420);
+    text('Element' + '    ' + radio.value() , 20, 490);
+    text('Row' + '    ' + sliderRow.value() , 20, 560);
+    text('Column' + '    ' + sliderColumn.value() , 20, 630);
+    text('Extrude' + '    ' + sliderExtrude.value() , 20, 700);
+  pop()
+
+
+
+  /*//sidebar
+  push();
+    fill(255);
+    strokeWeight(2);
+    rect(150, 0, 300, height * 2);
+
+    //title
+    push();
+      fill(colorPickerStrokes.color());
+      textSize(15);
+      text('Creative Typography', 20, 30);
+    pop();
+  pop();*/
 
   textPattern.forEach((e) => {e.draw()});
 
-  console.log(textPattern)
+  console.log(textPattern);
 }
 
 function myInputEvent() {
