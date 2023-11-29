@@ -14,6 +14,8 @@ let colorPickerBG;
 let colorPickerStrokes;
 let sliderRow;
 let sliderScale;
+let sliderSpacingVertical;
+let sliderSpacingHorizontal;
 
 let textPattern = [];
 
@@ -75,7 +77,7 @@ function setup() {
 
   //save image
   saveButton = createButton('Save as Image');
-  saveButton.position(20, height-60);
+  saveButton.position(20, height-50);
   saveButton.mousePressed(saveImage);
 
   //slider row
@@ -97,6 +99,16 @@ function setup() {
   sliderExtrude = createSlider(1, 400, 30);
   sliderExtrude.position(20, 710);
   sliderExtrude.style('120px');
+
+  //slider spacing vertical
+  sliderSpacingVertical = createSlider(50, 800, 400);
+  sliderSpacingVertical.position(250, height-50);
+  sliderSpacingVertical.style('120px');
+
+  //slider spacing horizontal
+  sliderSpacingHorizontal = createSlider(50, 1600, 800);
+  sliderSpacingHorizontal.position(400, height-50);
+  sliderSpacingHorizontal.style('120px');
 
   lastColValue = sliderColumn.value();
     lastRowValue = sliderRow.value();
@@ -124,7 +136,7 @@ function draw() {
     textPattern = [];
     for (let x = 0; x < sliderColumn.value(); x++) {
       for (let y = 0; y < sliderRow.value(); y++) {
-        let aText = new animatedText(x*100, y*100);
+        let aText = new animatedText(x * sliderSpacingHorizontal.value(), y * sliderSpacingVertical.value());
         textPattern.push(aText);
       }
     }
@@ -149,6 +161,8 @@ function draw() {
     text('Row' + '    ' + sliderRow.value() , 20, 560);
     text('Column' + '    ' + sliderColumn.value() , 20, 630);
     text('Extrude' + '    ' + sliderExtrude.value() , 20, 700);
+    text('Spacing vertical' + '    ' + sliderSpacingVertical.value() , 250, height-60);
+    text('Spacing horizontal' + '    ' + sliderSpacingHorizontal.value() , 400, height-60);
   pop()
 
 
