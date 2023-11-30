@@ -1,5 +1,6 @@
 let font;
-let fontSize = 200;
+let font2;
+
 let points;
 let box;
 
@@ -16,6 +17,8 @@ let sliderRow;
 let sliderScale;
 let sliderSpacingVertical;
 let sliderSpacingHorizontal;
+let fontSelect;
+let savingImage = false;
 
 let textPattern = [];
 
@@ -26,9 +29,9 @@ let lastVerticalValue;
 let lastHorizontalValue;
 
 
-
 function preload() {
   font = loadFont('GeneralSans-Semibold.otf');
+  //font2 = loadFont('DIN Condensed Bold.otf');
 }
 
 function setup() {
@@ -42,9 +45,18 @@ function setup() {
 
   //input
   textInput = createInput('IAD 23');
-  textInput.position(20, 70);
+  textInput.position(20, 50);
   textInput.size(120);
   textInput.input(myInputEvent);
+
+  //font select
+  fontSelect = createSelect();
+  fontSelect.position(20, 90);
+  fontSelect.option('General Sans');
+  fontSelect.option('font2');
+  fontSelect.option('font3');
+  fontSelect.option('font4');
+  fontSelect.selected('General Sans');
 
   //color picker background
   colorPickerBG = createColorPicker('#FFFFFF');
@@ -104,7 +116,7 @@ function setup() {
   sliderExtrude.style('120px');
 
   //slider spacing vertical
-  sliderSpacingVertical = createSlider(50, 800, 400, 1);
+  sliderSpacingVertical = createSlider(50, 800, 220, 1);
   sliderSpacingVertical.position(250, height-50);
   sliderSpacingVertical.style('120px');
 
@@ -150,6 +162,10 @@ function draw() {
     }
   }
 
+  textPattern.forEach((e) => {e.display()});
+
+  if (!savingImage) {
+
   push();
     //title
     push();
@@ -169,10 +185,14 @@ function draw() {
     text('Row' + '    ' + sliderRow.value() , 20, 560);
     text('Column' + '    ' + sliderColumn.value() , 20, 630);
     text('Extrude' + '    ' + sliderExtrude.value() , 20, 700);
+    text('Frame Rate    ' + floor(frameRate()), 20, 750);
     text('Spacing vertical' + '    ' + sliderSpacingVertical.value() , 250, height-60);
     text('Spacing horizontal' + '    ' + sliderSpacingHorizontal.value() , 400, height-60);
   pop()
-
+  } else {
+    saveCanvas('creative-typography', 'jpg');
+    savingImage = false;
+  }
 
 
   /*//sidebar
@@ -189,7 +209,7 @@ function draw() {
     pop();
   pop();*/
 
-  textPattern.forEach((e) => {e.display()});
+
 
   //console.log(textPattern.length);
 }
@@ -199,27 +219,32 @@ function myInputEvent() {
 }
 
 function saveImage() {
-  saveCanvas('creative-typography', 'jpg');
+  savingImage = true;
 }
 
 function mousePressed() {
-  let d = dist(mouseX, mouseY, shapeX, shapeY);
-  if (d < box.w/2) {
+ // let d = dist(mouseX, mouseY, shapeX, shapeY);
+ if (mouseX>200) {
     shapeMove = true;
     cursor(MOVE);
-  } else {
-    shapeMove = false;
-    cursor(ARROW);
-  }
+  //} else {
+  //  shapeMove = false;
+  //  cursor(ARROW);
+ }
 }
 
 function mouseReleased() {
   shapeMove = false;
+  cursor(ARROW);
 }
 
 function mouseDragged() {
   if (shapeMove) {
-    shapeX = mouseX;
-    shapeY = mouseY;
+    shapeX += mouseX-pmouseX;
+    shapeY += mouseY-pmouseY;
   }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
